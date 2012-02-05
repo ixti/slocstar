@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    title Octoblame
+    link rel="stylesheet" href==asset_path('application.css')
+  body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          a.brand href="/" Octoblame
+          form.navbar-form.nav.pull-right
+            input#slug.search-query placeholder="user/repo" value="nodeca/ndoc"
+            button.btn ...
+
+    #contents.container
+      h1() Welcome!
+      .row
+        .span12
+          p This is just a stupid and mostly useless application developed in a
+            humble attempt to play around with some technologies and tools.
+          p Descriptive info about stats and graphs will be here...
+
+    footer.container
+      .row
+        .span12
+          p Copyright &copy; 2012 Aleksey V Zapparov AKA ixti
+      
+
+    script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+    script defer="defer" src==asset_path('application.js')

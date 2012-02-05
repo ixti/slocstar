@@ -1,0 +1,18 @@
+h1()
+  ' {{slug}}
+  small#last-update.pull-right
+    ' Last update
+    time(datetime="{{time}}") {{time}}
+
+.row
+  #chart.span6
+    p Loading pie chart...
+
+  #stats.span6
+    ul
+      | {{# stats}}
+      li(data-loc="{{loc}}")
+        img.gravatar(src="http://www.gravatar.com/avatar/{{hash}}?s=40&d=retro")
+        .author() {{name}}
+        .loc() {{loc}}
+      | {{/ stats}}

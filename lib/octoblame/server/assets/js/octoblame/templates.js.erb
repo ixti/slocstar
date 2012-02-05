@@ -1,0 +1,18 @@
+//= require vendor/hogan.js
+
+(function () {
+  var templates = {
+    stats: Hogan.compile('<%= template 'templates/stats.slim' %>'),
+    error: Hogan.compile('<%= template 'templates/error.slim' %>')
+  };
+
+
+  /**
+  *  Octoblame.render(tpl, data) -> String
+  *  - tpl (String): template name
+  *  - data (Object): context object
+  **/
+  Octoblame.render = function (tpl, data) {
+    return templates[tpl].render(data);
+  };
+}());
