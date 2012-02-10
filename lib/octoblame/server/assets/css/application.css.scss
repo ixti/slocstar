@@ -19,9 +19,10 @@
 //= require bootstrap.css
 
 
-body {
-  padding-top: 60px;
-}
+body { padding-top: 60px; padding-bottom: 40px; }
+
+
+//= require bootstrap-responsive.css
 
 #stats {
   ul {
