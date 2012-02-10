@@ -2,14 +2,14 @@ doctype html
 html
   head
     title Octoblame
-    link rel="stylesheet" href==asset_path('application.css')
+    link rel="stylesheet" href=[asset_path('application.css')]
   body
     .navbar.navbar-fixed-top
       .navbar-inner
         .container
           a.brand href="/" Octoblame
           form.navbar-form.nav.pull-right
-            input#slug.search-query placeholder="user/repo" value="nodeca/ndoc"
+            input#slug.search-query placeholder="user/repo"
             button.btn ...
 
     #contents.container
@@ -20,11 +20,9 @@ html
             humble attempt to play around with some technologies and tools.
           p Descriptive info about stats and graphs will be here...
 
+    hr
     footer.container
-      .row
-        .span12
-          p Copyright &copy; 2012 Aleksey V Zapparov AKA ixti
-      
+      p Copyright &copy; 2012 Aleksey V Zapparov AKA ixti
 
     script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
-    script defer="defer" src==asset_path('application.js')
+    script defer="defer" src=[asset_path('application.js')]

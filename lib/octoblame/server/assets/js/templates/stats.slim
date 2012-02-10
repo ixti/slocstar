@@ -6,13 +6,14 @@ h1()
 
 .row
   #chart.span6
-    p Loading pie chart...
+    div Loading pie chart...
 
   #stats.span6
     ul
       | {{# stats}}
       li(data-loc="{{loc}}")
         img.gravatar(src="http://www.gravatar.com/avatar/{{hash}}?s=40&d=retro")
-        .author() {{name}}
-        .loc() {{loc}}
+        div.commiter
+          h3.author() {{name}}
+          small.loc() {{loc}} SLOCs
       | {{/ stats}}
