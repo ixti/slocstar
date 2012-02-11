@@ -4,8 +4,8 @@ require 'resque/tasks'
 require 'resque_scheduler/tasks'
 require 'rake/sprocketstask'
 
-namespace :octoblame do
-  Server = Octoblame::Server
+namespace :slocster do
+  Server = Slocster::Server
 
   Rake::SprocketsTask.new do |t|
     t.environment = Server.assets

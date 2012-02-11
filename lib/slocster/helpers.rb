@@ -1,19 +1,19 @@
-# Octoblame - Missing stupid statistics of GitHub repos
+# Slocster - Missing stupid statistics of GitHub repos
 #
 # Copyright (c) 2012 Aleksey V Zapparov <ixti@member.fsf.org>
 #
-# Octoblame is free software: you can redistribute it and/or modify
+# Slocster is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# Octoblame is distributed in the hope that it will be useful,
+# Slocster is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
-# along with Octoblame.  If not, see <http://www.gnu.org/licenses/>.
+# along with Slocster.  If not, see <http://www.gnu.org/licenses/>.
 
 
 require 'multi_json'
@@ -23,19 +23,19 @@ require 'multi_json'
 
 # yajl-ruby 100% works with utf-8, while I'm not sure about others and
 # :json-common had problems for sure...
-begin 
+begin
   require 'yajl'
   MultiJson.engine = :yajl
 rescue
   raise "Please install the yajl-ruby gem"
 end
 
-module Octoblame
+module Slocster
   module Helpers
     class DecodeException < StandardError; end
 
     def redis
-      Octoblame.redis
+      Slocster.redis
     end
 
     # Given a Ruby object, returns a string suitable for storage in a

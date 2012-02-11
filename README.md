@@ -1,3 +1,8 @@
+SLOCster
+========
+
+Formerly named _Octoblame_.
+
 Deployment
 ----------
 
