@@ -31,13 +31,21 @@ module Slocster
 
     def stats
       tmp = Dir.mktmpdir('slocster-')
+      stats = {}
+
       Git.clone(source_url, tmp)
-      Git.stats(tmp).map do |data|
+      Git.stats(tmp).each do |data|
         loc, name, mail = data
-        [loc.to_i, name, Digest::MD5.hexdigest(mail)]
-      end.sort do |a, b|
-        b.first <=> a.first
+
+        if stats[mail].nil?
+          stats[mail] = [loc.to_i, name, Digest::MD5.hexdigest(mail)]
+        else
+          stats[mail][0] += loc.to_i
+          stats[mail][1] = name if stats[mail][1] < name
+        end
       end
+
+      stats.values.sort{ |a, b| b.first <=> a.first }
     ensure
       # by some reasons, when Git.* raises error, tmpdir removed before we
       # get here, at least on my laptop
