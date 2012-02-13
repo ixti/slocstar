@@ -121,8 +121,7 @@ module Slocster
     # Clone `source` repository into `path`
     # BEWARE! We don't check neither source nor path.
     def self.clone(source, path)
-      exec({"GIT_ASKPASS" => "echo"},
-           "git clone --quiet --depth 1 '#{source}' '#{path}'")
+      exec({"GIT_ASKPASS" => "echo"}, "git clone --quiet '#{source}' '#{path}'")
     end
 
 
