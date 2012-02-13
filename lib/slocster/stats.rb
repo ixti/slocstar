@@ -51,7 +51,8 @@ module Slocster
 
       redis.set("stats:#{repo.slug}", encode({
         :stats => stats,
-        :time => Time.new.to_i
+        :time => Time.new.to_i,
+        :sha1 => Digest::SHA1.hexdigest(stats.flatten.unshift(Time.new).join)
       }))
 
       # Re-enqueue stats update

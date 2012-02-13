@@ -24,6 +24,7 @@ require 'slocster'
 
 
 if ENV['SLOCSTER_FAKE']
+  require 'digest/md5'
   require 'faker'
 
   module Slocster

@@ -18,6 +18,7 @@
 
 require 'slim'
 require 'sass'
+require 'redcarpet'
 require 'multi_json'
 require 'sprockets'
 require 'sinatra/base'
@@ -65,10 +66,17 @@ module Slocster
       end
     end
 
-    get "/stats/:user/:proj" do
+    get "/stats/:user/:proj.json" do
       content_type :json
       stats = Stats.get(params[:user], params[:proj])
-      encode(stats || {:err => "No stats for this repo yet."})
+
+      return encode({:err => "No stats for this repo yet."}) unless stats
+
+      cache_control :public
+      last_modified stats[:time]
+      etag stats[:sha1]
+
+      encode(stats)
     end
 
     get "/" do
