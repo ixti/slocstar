@@ -1,21 +1,24 @@
 doctype html
 html
   head
-    title Slocster
+    title SlocStar
     link rel="stylesheet" href=[asset_path('application.css')]
+    meta name="slocstar-version" value=[SlocStar::VERSION]
   body
     .navbar.navbar-fixed-top
       .navbar-inner
         .container
-          a.brand href="/" Slocster
+          a.brand href="/" SlocStar
           form.navbar-form.nav.pull-right
             input#slug.search-query placeholder="user/repo"
             button.btn.btn-info Show!
 
     #contents.container
-      h1() Welcome!
       markdown:
-        Slocster (formerly named as _Octoblame_) is a dummy stats generator that shows
+        SlocStar
+        ========
+
+        SlocStar (formerly named as _Octoblame_) is a dummy stats generator that shows
         how much lines of code (SLOC) belongs to who in the latest snapshot of git repo.
         It was written in order to play around with [resque][1] and [posix-spawn][2]
         mostly and generally consist of two things:
@@ -34,10 +37,11 @@ html
         [1]: https://github.com/defunkt/resque/
         [2]: https://github.com/rtomayko/posix-spawn/
 
-        ## How To
+        How To
+        ------
 
-        Usage of _Slocster_ is simple, just type-in `username/repo` of a GitHub
-        hosted project (e.g. _ixti/slocster_) to get it stats.
+        Usage of _SlocStar_ is simple, just type-in `username/repo` of a GitHub
+        hosted project (e.g. _ixti/slocstar_) to get it stats.
 
         If there are no such repo or no stats yet, you will see an error.
         If such repo exists - then just try later... Some repos are big so
@@ -53,7 +57,7 @@ html
 
           [ixti]: http://ixti.net/
           [license]: http://www.gnu.org/licenses/agpl-3.0-standalone.html
-          [sources]: https://github.com/ixti/slocster
+          [sources]: https://github.com/ixti/slocstar
 
     script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
     script defer="defer" src=[asset_path('application.js')]

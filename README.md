@@ -1,7 +1,7 @@
-SLOCster
+SlocStar
 ========
 
-Slocster (formerly named as _Octoblame_) is a dummy stats generator that shows
+SlocStar (formerly named as _Octoblame_) is a dummy stats generator that shows
 how much lines of code (SLOC) belongs to who in the latest snapshot of git repo.
 It was written in order to play around with [resque][1] and [posix-spawn][2]
 mostly and generally consist of two things:
