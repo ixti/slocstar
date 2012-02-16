@@ -31,10 +31,10 @@ if ENV['SLOCSTAR_FAKE']
     module Stats
       def self.get(user, proj)
         # simulate we have no data
-        return nil if rand <= 0.25
+        return nil if rand <= 0.35
 
         {
-          :stats  => rand <= 0.5 ? fake_stats(1) : fake_stats(rand 1..42),
+          :stats  => rand <= 0.25 ? fake_stats(1) : fake_stats(rand 1..42),
           :time   => Time.new.to_i
         }
       end
