@@ -20,10 +20,7 @@
 
 
 ;(function () {
-  var templates = {
-    stats: Hogan.compile('<%= template 'templates/stats.slim' %>'),
-    error: Hogan.compile('<%= template 'templates/error.slim' %>')
-  };
+  var templates = {};
 
 
   /**
@@ -32,6 +29,10 @@
   *  - data (Object): context object
   **/
   SlocStar.render = function (tpl, data) {
+    if (!templates[tpl]) {
+      templates[tpl] = Hogan.compile($('#' + tpl + '-tpl').html());
+    }
+
     return templates[tpl].render(data);
   };
 }());

@@ -39,22 +39,6 @@ module SlocStar
         # add assets paths
         @assets.append_path 'assets/js'
         @assets.append_path 'assets/css'
-
-        # add helpers
-        @assets.context_class.class_eval do
-          def template path, options = {}
-            pathname  = resolve(path, options)
-            result    = Tilt.new(pathname.to_s).render
-
-            # Shamelessly taken from EJS:
-            # https://github.com/sstephenson/ruby-ejs/blob/master/lib/ejs.rb
-
-            result.gsub!(/\\/) { '\\\\' }
-            result.gsub!(/'/) { "\\'" }
-
-            result
-          end
-        end
       end
 
       @assets
@@ -90,12 +74,12 @@ module SlocStar
 
     not_found do
       status 404
-      slim :not_found
+      slim :"404"
     end
 
     error do
       status 500
-      slim :error
+      slim :"500"
     end
   end
 end

@@ -50,14 +50,22 @@ html
     .container
       hr
       footer#copyrights
-        markdown:
-          - Copyright &copy; 2012 [Aleksey V Zapparov AKA ixti][ixti]
-          - Licensed under terms of [GNU AGPLv3][license] or higher
-          - Sources at [GitHub][sources]
+        ul
+          li
+            ' Copyright &copy; 2012
+            a href="http://ixti.net/" Aleksey V Zapparov AKA ixti
+          li
+            ' Licensed under terms of
+            a href="http://www.gnu.org/licenses/agpl-3.0-standalone.html" GNU AGPLv3
+            '  or higher
+          li
+            ' Fork me at
+            a href="https://github.com/ixti/slocstar" GitHub
 
-          [ixti]: http://ixti.net/
-          [license]: http://www.gnu.org/licenses/agpl-3.0-standalone.html
-          [sources]: https://github.com/ixti/slocstar
+
+    script#stats-tpl type="text/x-mustache-template" == slim :tpl_stats
+    script#error-tpl type="text/x-mustache-template" == slim :tpl_error
+
 
     script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
     script defer="defer" src=[asset_path('application.js')]
