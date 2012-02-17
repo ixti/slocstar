@@ -96,27 +96,6 @@ pre > code { border: 0; }
 }
 
 
-#copyrights {
-  ul {
-    list-style: none outside none;
-    margin: 0;
-
-    li {
-      float: none;
-      display: inline-block;
-
-      &:after {
-        content: "᛭"
-      }
-
-      &:last-child:after {
-        content: ""
-      }
-    }
-  }
-}
-
-
 #repo-title {
   margin-bottom: 20px;
 }

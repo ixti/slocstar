@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title SlocStar
+    title SLOCStar
     link rel="stylesheet" href=[asset_path('application.css')]
     meta name="slocstar-version" value=[SlocStar::VERSION]
   body
@@ -13,54 +13,39 @@ html
             input#search-slug.search-query placeholder="user/repo"
             button.btn.btn-info Show!
 
-    #contents.container
-      markdown:
-        SlocStar
-        ========
-
-        SlocStar (formerly named as _Octoblame_) is a dummy stats generator that shows
-        how much lines of code (SLOC) belongs to who in the latest snapshot of git repo.
-        It was written in order to play around with [resque][1] and [posix-spawn][2]
-        mostly and generally consist of two things:
-
-        - frontend user interface that grabs requests and renders retrieved data
-        - backend worker that downloads latest repo snapshot and calculate stats
-
-        To calculate amount of lines of code per-author I use piped bunch of commands
-        that are running in a spawned process by resque. You can get such stats by
-        yourself running following in the dir with your repo (no ruby needed at all):
-
-            git ls-tree -r --name-only HEAD | while read file ; do
-              git blame --line-porcelain HEAD "$file"
-            done | sed -n 's/^author //p' | sort | uniq -c | sort -rn
-
-        [1]: https://github.com/defunkt/resque/
-        [2]: https://github.com/rtomayko/posix-spawn/
-
-        How To
-        ------
-
-        Usage of _SlocStar_ is simple, just type-in `username/repo` of a GitHub
-        hosted project (e.g. _ixti/slocstar_) to get it stats.
-
-        If there are no such repo or no stats yet, you will see an error.
-        If such repo exists - then just try later... Some repos are big so
-        they require more time to calculate stats for them.
-
     .container
-      hr
-      footer#copyrights
+
+      article#contents
+        h1 SLOCStar
+
+        p
+          ' SLOCStar is a dummy stats generator that shows how much lines of code
+          ' (SLOC) belongs to who in the latest snapshot of git repo. It was
+          ' written in a humble attempt to play with
+          a href="https://github.com/defunkt/resque/" resque
+          '  and
+          a href="https://github.com/rtomayko/posix-spawn/" posix-spawn
+          ' .
+
+        h2 How-To
+
+        p Usage of <em>SLOCStar</em> is simple, just type-in <code>user/repo</code>
+          of a GitHub hosted project to get it stats, for example:
+
         ul
-          li
-            ' Copyright &copy; 2012
-            a href="http://ixti.net/" Aleksey V Zapparov AKA ixti
-          li
-            ' Licensed under terms of
-            a href="http://www.gnu.org/licenses/agpl-3.0-standalone.html" GNU AGPLv3
-            '  or higher
-          li
-            ' Fork me at
-            a href="https://github.com/ixti/slocstar" GitHub
+          li: a href="#/sinatra/sinatra" sinatra/sinatra
+          li: a href="#/defunkt/resque" defunkt/resque
+          li: a href="#/rtomayko/posix-spawn" rtomayko/posix-spawn
+
+      hr
+
+      footer#copyrights
+        ' Copyright &copy; 2012
+        a href="http://ixti.net/" Aleksey V Zapparov AKA ixti
+        '  ᛭ Licensed under terms of
+        a href="http://www.gnu.org/licenses/agpl-3.0-standalone.html" GNU AGPLv3
+        '  or higher ᛭ Fork me at
+        a href="https://github.com/ixti/slocstar" GitHub
 
 
     script#stats-tpl type="text/x-mustache-template" == slim :tpl_stats

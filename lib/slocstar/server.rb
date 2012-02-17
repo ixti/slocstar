@@ -18,7 +18,6 @@
 
 require 'slim'
 require 'sass'
-require 'redcarpet'
 require 'multi_json'
 require 'sprockets'
 require 'sinatra/base'

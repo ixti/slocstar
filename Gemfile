@@ -13,7 +13,6 @@ gem "slim"
 gem "sass"
 gem "sprockets"
 gem "sinatra"
-gem "redcarpet"
 
 group :development do
   gem "faker"
