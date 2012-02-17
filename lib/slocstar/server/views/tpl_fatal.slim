@@ -1,8 +1,12 @@
 .modal
   .modal-header
     a.close data-dismiss="modal" ×
-    h1() {{error}}
+    h1 Fatal Error
 
   .modal-body
     p Unexpected error occured while trying to get stats of
       <code>{{slug}}</code>.
+
+    h3 Reason:
+
+    p() {{error}}
