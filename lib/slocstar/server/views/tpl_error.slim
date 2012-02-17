@@ -1,6 +1,16 @@
-h1() {{slug}}
-h2() Error!
+.modal
+  .modal-header
+    a.close data-dismiss="modal" ×
+    h1 No stats for {{slug}}
 
-.row
-  .span12
-    p() {{error}}
+  .modal-body
+    h3 Possible reasons:
+
+    ul
+      li
+        ' There's no such repo on
+        a href="https://github.com/{{slug}}" target="_blank" GitHub
+      li
+        ' We're still generating stats for the repo. It might much time to
+        ' generate stats for really big repos. Please, be patient and try again
+        ' later.

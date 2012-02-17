@@ -26,7 +26,7 @@ pre > code { border: 0; }
 //= require bootstrap-responsive.css
 
 
-#slug {
+#search-slug {
   margin-right: 10px;
 }
 
@@ -116,6 +116,10 @@ pre > code { border: 0; }
   }
 }
 
+
+#repo-title {
+  margin-bottom: 20px;
+}
 
 .page-title-fixed {
   background-color: #fafafa;

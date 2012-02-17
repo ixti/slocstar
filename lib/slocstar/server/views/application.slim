@@ -10,7 +10,7 @@ html
         .container
           a.brand href="/" SlocStar
           form.navbar-form.nav.pull-right
-            input#slug.search-query placeholder="user/repo"
+            input#search-slug.search-query placeholder="user/repo"
             button.btn.btn-info Show!
 
     #contents.container
@@ -65,6 +65,7 @@ html
 
     script#stats-tpl type="text/x-mustache-template" == slim :tpl_stats
     script#error-tpl type="text/x-mustache-template" == slim :tpl_error
+    script#fatal-tpl type="text/x-mustache-template" == slim :tpl_fatal
 
 
     script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
