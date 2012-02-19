@@ -98,6 +98,14 @@ pre > code { border: 0; }
 
 #repo-title {
   margin-bottom: 20px;
+
+  a {
+    opacity: 0.25;
+    text-decoration: none;
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 
 .page-title-fixed {
