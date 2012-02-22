@@ -39,23 +39,25 @@ module SlocStar
         # add assets paths
         @assets.append_path 'assets/js'
         @assets.append_path 'assets/css'
-
-        begin
-          require 'closure-compiler'
-          @assets.js_compressor = Closure::Compiler.new
-        rescue LoadError
-          # no js compression enbled
-        end
-
-        begin
-          require 'yui/compressor'
-          @assets.css_compressor = YUI::CssCompressor.new
-        rescue LoadError
-          # no css compression enbled
-        end
       end
 
       @assets
+    end
+
+    configure :production do
+      begin
+        require 'closure-compiler'
+        Server.assets.js_compressor = Closure::Compiler.new
+      rescue LoadError
+        # no js compression enbled
+      end
+
+      begin
+        require 'yui/compressor'
+        Server.assets.css_compressor = YUI::CssCompressor.new
+      rescue LoadError
+        # no css compression enbled
+      end
     end
 
     helpers do
