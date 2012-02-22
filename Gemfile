@@ -13,6 +13,7 @@ gem "slim"
 gem "sass"
 gem "sprockets"
 gem "sinatra"
+gem "yui-compressor"
 
 group :development do
   gem "faker"
