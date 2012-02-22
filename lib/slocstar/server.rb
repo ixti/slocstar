@@ -21,6 +21,7 @@ require 'sass'
 require 'multi_json'
 require 'sprockets'
 require 'sinatra/base'
+
 require 'slocstar/helpers'
 require 'slocstar/stats'
 
@@ -38,6 +39,20 @@ module SlocStar
         # add assets paths
         @assets.append_path 'assets/js'
         @assets.append_path 'assets/css'
+
+        begin
+          require 'uglifier'
+          @assets.js_compressor = Uglifier.new
+        rescue LoadError
+          # no js compression enbled
+        end
+
+        begin
+          require 'yui/compressor'
+          @assets.css_compressor = YUI::CssCompressor.new
+        rescue LoadError
+          # no css compression enbled
+        end
       end
 
       @assets
