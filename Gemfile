@@ -16,7 +16,7 @@ gem "sinatra"
 
 group :assets_compressors do
   gem "yui-compressor"
-  gem "uglifier"
+  gem "closure-compiler"
 end
 
 group :development do

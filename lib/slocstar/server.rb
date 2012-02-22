@@ -41,8 +41,8 @@ module SlocStar
         @assets.append_path 'assets/css'
 
         begin
-          require 'uglifier'
-          @assets.js_compressor = Uglifier.new
+          require 'closure-compiler'
+          @assets.js_compressor = Closure::Compiler.new
         rescue LoadError
           # no js compression enbled
         end
