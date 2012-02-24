@@ -2,7 +2,7 @@ doctype html
 html
   head
     title SLOCStar
-    link rel="stylesheet" href=[asset_path('application.css')]
+    link rel="stylesheet" href==asset_path('application.css')
     meta name="slocstar-version" value=[SlocStar::VERSION]
   body
     .navbar.navbar-fixed-top
@@ -15,27 +15,38 @@ html
 
     .container
 
-      article#contents
-        h1 SLOCStar
+      .row
+        article#contents
+          .span8
+            h1 SLOCStar
 
-        p
-          ' SLOCStar is a dummy stats generator that shows how much lines of code
-          ' (SLOC) belongs to who in the latest snapshot of git repo. It was
-          ' written in a humble attempt to play with
-          a href="https://github.com/defunkt/resque/" resque
-          '  and
-          a href="https://github.com/rtomayko/posix-spawn/" posix-spawn
-          ' .
+            p
+              ' SLOCStar is a dummy stats generator that shows how much lines of code
+              ' (SLOC) belongs to who in the latest snapshot of git repo. It was
+              ' written in a humble attempt to play with
+              a href="https://github.com/defunkt/resque/" resque
+              '  and
+              a href="https://github.com/rtomayko/posix-spawn/" posix-spawn
+              ' .
 
-        h2 How-To
+            h2 How-To
 
-        p Usage of <em>SLOCStar</em> is simple, just type-in <code>user/repo</code>
-          of a GitHub hosted project to get it stats, for example:
+            p Usage of <em>SLOCStar</em> is simple, just type-in <code>user/repo</code>
+              of a GitHub hosted project to get it stats, for example:
 
-        ul
-          li: a href="#/sinatra/sinatra" sinatra/sinatra
-          li: a href="#/defunkt/resque" defunkt/resque
-          li: a href="#/rtomayko/posix-spawn" rtomayko/posix-spawn
+            ul
+              li: a href="#/sinatra/sinatra" sinatra/sinatra
+              li: a href="#/defunkt/resque" defunkt/resque
+              li: a href="#/rtomayko/posix-spawn" rtomayko/posix-spawn
+
+          .span4
+            h1 Latest Updated
+
+            ul
+              - for slug in latest do
+                li
+                  a href=="#/#{slug}"
+                    = slug
 
       hr
 
@@ -54,4 +65,4 @@ html
 
 
     script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
-    script defer="defer" src=[asset_path('application.js')]
+    script defer="defer" src==asset_path('application.js')

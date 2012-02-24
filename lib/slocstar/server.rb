@@ -85,7 +85,7 @@ module SlocStar
     end
 
     get "/" do
-      slim :application
+      slim :application, :locals => {:latest => Stats.latest}
     end
 
     not_found do

@@ -55,11 +55,23 @@ module SlocStar
         :sha1 => Digest::SHA1.hexdigest(stats.flatten.unshift(Time.new).join)
       }))
 
+      redis.multi do
+        redis.lrem('latest', 0, repo.slug)
+        redis.lpush('latest', repo.slug)
+        # amount of "latest" updated repos
+        # FIXME: should be configurable
+        redis.ltrim('latest', 0, 42)
+      end
+
       # Re-enqueue stats update
       Resque.enqueue_in(UPDATE_FREQ, Stats, user, proj)
     rescue Git::GitCommandFailed
       redis.del("queued:#{repo.slug}")
       raise
+    end
+
+    def latest
+      redis.lrange('latest', 0, -1)
     end
   end
 end
