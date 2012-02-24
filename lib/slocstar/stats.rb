@@ -71,7 +71,10 @@ module SlocStar
     end
 
     def latest
-      redis.lrange('latest', 0, -1)
+      slugs = redis.lrange('latest', 0, -1)
+      slugs.empty? ? [] : redis.mget(*(slugs.map{ |s| "stats:#{s}" })).map do |stats|
+        {:slug => slugs.shift, :time => decode(stats)['time']}
+      end
     end
   end
 end

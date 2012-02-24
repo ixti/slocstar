@@ -39,14 +39,17 @@ html
               li: a href="#/defunkt/resque" defunkt/resque
               li: a href="#/rtomayko/posix-spawn" rtomayko/posix-spawn
 
-          .span3
+          #last-updates.span3
             .well style="padding: 8px 0"
               ul.nav.nav-list
                 li.nav-header Latest Updated
-                - for slug in latest do
+                - for item in latest do
                   li
-                    a href=="#/#{slug}"
-                      = slug
+                    a href=="#/#{item[:slug]}"
+                      = item[:slug]
+                      div.timestamp
+                        ' Last update
+                        time=item[:time]
 
       hr
 
