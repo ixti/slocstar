@@ -39,6 +39,16 @@ if ENV['SLOCSTAR_FAKE']
         }
       end
 
+      def self.latest
+        return [] if rand <= 0.35
+        %w{
+          defunkt/resque
+          sinatra/sinatra
+          ixti/slocstar
+          ixti/redmine_tags
+        }.shuffle
+      end
+
       protected
 
       def rand *args
