@@ -60,7 +60,7 @@ module SlocStar
         redis.lpush('latest', repo.slug)
         # amount of "latest" updated repos
         # FIXME: should be configurable
-        redis.ltrim('latest', 0, 42)
+        redis.ltrim('latest', 0, 16)
       end
 
       # Re-enqueue stats update

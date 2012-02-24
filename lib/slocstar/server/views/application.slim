@@ -17,7 +17,7 @@ html
 
       .row
         article#contents
-          .span8
+          .span9
             h1 SLOCStar
 
             p
@@ -39,14 +39,16 @@ html
               li: a href="#/defunkt/resque" defunkt/resque
               li: a href="#/rtomayko/posix-spawn" rtomayko/posix-spawn
 
-          .span4
-            h1 Latest Updated
-
-            ul
-              - for slug in latest do
-                li
-                  a href=="#/#{slug}"
-                    = slug
+          .span3
+            .well style="padding: 8px 0"
+              ul.nav.nav-list
+                li.nav-header Latest Updated
+                - for slug in latest do
+                  li
+                    a href=="#/#{slug}"
+                      = slug
+                - unless latest
+                  li No stats yet...
 
       hr
 
