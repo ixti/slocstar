@@ -46,7 +46,9 @@ if ENV['SLOCSTAR_FAKE']
           sinatra/sinatra
           ixti/slocstar
           ixti/redmine_tags
-        }.shuffle
+        }.shuffle.map do |slug|
+          {:slug => slug, :time => Time.new.to_i}
+        end
       end
 
       protected
