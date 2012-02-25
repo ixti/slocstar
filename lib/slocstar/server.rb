@@ -67,7 +67,7 @@ module SlocStar
       end
     end
 
-    get "/stats/:user/:proj.json" do
+    get "/stats/:user/:proj" do
       content_type :json
       stats = Stats.get(params[:user], params[:proj])
 
@@ -78,6 +78,11 @@ module SlocStar
       etag stats[:sha1]
 
       encode(stats)
+    end
+
+    get "/known" do
+      content_type :json
+      encode(Stats.known)
     end
 
     get "/version" do

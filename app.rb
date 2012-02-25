@@ -41,14 +41,18 @@ if ENV['SLOCSTAR_FAKE']
 
       def self.latest
         return [] if rand <= 0.35
+        known.shuffle.map do |slug|
+          {:slug => slug, :time => Time.new.to_i}
+        end
+      end
+
+      def self.known
         %w{
           defunkt/resque
           sinatra/sinatra
           ixti/slocstar
           ixti/redmine_tags
-        }.shuffle.map do |slug|
-          {:slug => slug, :time => Time.new.to_i}
-        end
+        }
       end
 
       protected

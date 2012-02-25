@@ -56,6 +56,8 @@ module SlocStar
       }))
 
       redis.multi do
+        # keep list of known repos
+        redis.sadd('known', repo.slug)
         redis.lrem('latest', 0, repo.slug)
         redis.lpush('latest', repo.slug)
         # amount of "latest" updated repos
@@ -67,6 +69,7 @@ module SlocStar
       Resque.enqueue_in(UPDATE_FREQ, Stats, user, proj)
     rescue Git::GitCommandFailed
       redis.del("queued:#{repo.slug}")
+      redis.srem('known', repo.slug)
       raise
     end
 
@@ -75,6 +78,10 @@ module SlocStar
       slugs.empty? ? [] : redis.mget(*(slugs.map{ |s| "stats:#{s}" })).map do |stats|
         {:slug => slugs.shift, :time => decode(stats)['time']}
       end
+    end
+
+    def known
+      redis.smembers('known')
     end
   end
 end
