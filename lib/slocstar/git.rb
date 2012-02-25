@@ -52,8 +52,8 @@ module SlocStar
     #   {lines of code} {author name} <{author-mail}>
     STATS_CMD = <<-CMD
       git ls-tree -r --name-only HEAD | while read file ; do
-        git blame --line-porcelain HEAD "$file"
-      done | sed -n '#{STATS_SED_SCRIPT}' | sort | uniq -c
+        git blame --line-porcelain HEAD "$file" | sed -n '#{STATS_SED_SCRIPT}'
+      done | sort | uniq -c
     CMD
 
 
