@@ -41,12 +41,25 @@ pre > code { border: 0; }
     padding: 8px;
     opacity: 0.8;
     cursor: default;
+    position: relative;
 
     .gravatar,
     .commiter {
       display: inline-block;
       vertical-align: top;
       margin: 5px;
+    }
+
+    .github {
+      display: block;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      bottom: 5px;
+      overflow: hidden;
+      width: 60px;
+      text-indent: 1000px;
+      background: url('github.png') no-repeat scroll center center transparent;
     }
 
     .gravatar {
@@ -83,6 +96,12 @@ pre > code { border: 0; }
     .gravatar {
       border: 1px solid #ccc;
       box-shadow: 0px 0px 3px #ddd;
+    }
+
+    .github {
+      top: 4px;
+      bottom: 4px;
+      right: 4px;
     }
   }
 

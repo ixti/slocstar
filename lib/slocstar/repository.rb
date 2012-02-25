@@ -18,11 +18,15 @@
 
 require 'digest/md5'
 require 'tmpdir'
+require 'httparty'
 
 require 'slocstar/git'
 
 module SlocStar
   class Repository
+    include HTTParty
+    base_uri "https://api.github.com"
+
     attr_reader :user, :proj
 
     def initialize(user, proj)
@@ -45,7 +49,12 @@ module SlocStar
         end
       end
 
-      stats.values.sort{ |a, b| b.first <=> a.first }
+      stats.values.sort{ |a, b| b.first <=> a.first }.map do |data|
+        if user = collaborators.find{ |u| u['gravatar_id'] == data.last }
+          data << user['login']
+        end
+        data
+      end
     ensure
       # by some reasons, when Git.* raises error, tmpdir removed before we
       # get here, at least on my laptop
@@ -62,6 +71,11 @@ module SlocStar
 
     def source_url
       "git://github.com/#{slug}.git"
+    end
+
+    def collaborators
+      @collaborators = self.class.get("/repos/#{slug}/collaborators") unless @collaborators
+      @collaborators
     end
   end
 end

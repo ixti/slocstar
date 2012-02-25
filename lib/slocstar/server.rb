@@ -39,6 +39,7 @@ module SlocStar
         # add assets paths
         @assets.append_path 'assets/js'
         @assets.append_path 'assets/css'
+        @assets.append_path 'assets/images'
       end
 
       @assets

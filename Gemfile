@@ -8,6 +8,7 @@ gem "resque-scheduler"
 gem "yajl-ruby"
 gem "multi_json"
 gem "posix-spawn"
+gem "httparty"
 
 gem "slim"
 gem "sass"

@@ -18,4 +18,7 @@
         div.commiter
           h3.author() {{name}}
           small.loc() {{loc}} SLOC
+        | {{# user}}
+        a.github href="https://github.com/{{user}}" @github
+        | {{/ user}}
       | {{/ stats}}
