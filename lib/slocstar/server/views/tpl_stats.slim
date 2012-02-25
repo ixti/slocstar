@@ -1,10 +1,11 @@
 #repo-title
-  h1.container
-    ' {{slug}}
-    a href="https://github.com/{{slug}}" @github
-    small#last-update.pull-right
-      ' Last update
-      time(datetime="{{time}}") {{time}}
+  .container
+    h1
+      ' {{slug}}
+      a href="https://github.com/{{slug}}" @github
+      small#last-update.pull-right
+        ' Last update
+        time(datetime="{{time}}") {{time}}
 
 .row
   #chart.span6
