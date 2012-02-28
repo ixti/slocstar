@@ -1,0 +1,163 @@
+//  SlocStar - Missing stupid statistics of GitHub repos
+//
+//  Copyright (c) 2012 Aleksey V Zapparov <ixti@member.fsf.org>
+//
+//  SlocStar is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Affero General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  SlocStar is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU Affero General Public License for more details.
+//
+//  You should have received a copy of the GNU Affero General Public License
+//  along with SlocStar.  If not, see <http://www.gnu.org/licenses/>.
+
+
+//= require vendor/bootstrap
+
+
+body { padding-top: 60px; padding-bottom: 40px; }
+pre > code { border: 0; }
+
+
+#search-slug {
+  margin-right: 10px;
+}
+
+
+#stats {
+  ul {
+    padding: 1px;
+    list-style: none;
+  }
+
+  li {
+    padding: 8px;
+    opacity: 0.8;
+    cursor: default;
+    position: relative;
+
+    .gravatar,
+    .commiter {
+      display: inline-block;
+      vertical-align: top;
+      margin: 5px;
+    }
+
+    .github {
+      display: inline-block;
+      margin: 10px;
+      float: right;
+      opacity: 0.5;
+    }
+
+    .gravatar {
+      margin: 9px;
+      border: 1px solid rgba(0,0,0,0.15);
+      border-radius: 3px;
+      box-shadow: 0px 0px 2px rgba(0,0,0,0.15);
+      background-color: #fff;
+      width: 40px;
+      height: 40px;
+    }
+
+    .author {
+      font-weight: bold;
+    }
+
+    .loc {
+      font-style: italic;
+      margin-left: 0.5em;
+      color: #777;
+    }
+  }
+
+  .active {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #aaa #ddd;
+
+    box-shadow: inset 0px 0px 10px #eee, 0px 0px 2px #eee;
+    border-radius: 3px;
+    background-color: #fafafa;
+
+    &, & > li {
+      opacity: 1;
+    }
+
+    .gravatar {
+      box-shadow: 0px 0px 4px rgba(0,0,0,0.35);
+    }
+
+    .github {
+      opacity: 1;
+    }
+  }
+
+  ul.active {
+    padding: 0px;
+  }
+
+  li.active {
+    padding: 7px;
+  }
+
+  li.minor-collapser {
+    font-style: italic;
+    cursor: pointer;
+    margin: 8px -8px -8px;
+    padding: 9px 18px;
+    color: #777;
+    text-decoration: underline;
+    border-radius: 3px;
+
+    &:hover {
+      color: #333;
+      background-color: #ddd;
+      text-decoration: none;
+    }
+  }
+}
+
+
+#repo-title {
+  margin-bottom: 20px;
+
+  a {
+    opacity: 0.25;
+    text-decoration: none;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.page-title-fixed {
+  background-color: #fafafa;
+  border-color: #D5D5D5;
+  border-radius: 0 0 0 0;
+  border-width: 0 0 1px;
+  box-shadow: 0 1px 0 #FFFFFF inset, 0 0 5px rgba(0, 0, 0, 0.1);
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 40px;
+  z-index: 1030;
+  padding: 10px 0;
+}
+
+
+#last-updates .timestamp {
+  font-style: italic;
+  font-size: 75%;
+  color: #555;
+  margin-top: -2%;
+}
+
+
+#search-autocomplete {
+  z-index: 1050;
+}
