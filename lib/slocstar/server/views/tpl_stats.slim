@@ -20,6 +20,7 @@
           h3.author() {{name}}
           small.loc() {{loc}} SLOC
         | {{# user}}
-        a.github(href="https://github.com/{{user}}" title="Follow @{{user}} on GitHub") @{{user}}
+        a.github(href="https://github.com/{{user}}" title="Follow @{{user}} on GitHub")
+          img src==asset_path('github.png') alt="@{{user}}"
         | {{/ user}}
       | {{/ stats}}

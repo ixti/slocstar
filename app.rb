@@ -31,10 +31,10 @@ if ENV['SLOCSTAR_FAKE']
     module Stats
       def self.get(user, proj)
         # simulate we have no data
-        return nil if rand <= 0.35
+        return nil if rand <= 0.15
 
         {
-          :stats  => rand <= 0.25 ? fake_stats(1) : fake_stats(rand 1..42),
+          :stats  => rand <= 0.15 ? fake_stats(1) : fake_stats(rand 1..42),
           :time   => Time.new.to_i
         }
       end
@@ -64,11 +64,14 @@ if ENV['SLOCSTAR_FAKE']
 
       def fake_stats amount
         Array.new(amount).fill do
-          [
-            rand(1..12345),
-            Faker::Name.name,
-            Digest::MD5.hexdigest(Faker::Internet.email)
-          ]
+          data = []
+
+          data << rand(1..12345)
+          data << Faker::Name.name
+          data << Digest::MD5.hexdigest(Faker::Internet.email)
+          data << 'user' if rand <= 0.35
+
+          data
         end.sort{ |a,b| b.first <=> a.first }
       end
     end
