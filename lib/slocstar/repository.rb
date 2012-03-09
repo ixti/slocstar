@@ -22,6 +22,7 @@ require 'httparty'
 
 require 'slocstar/git'
 
+
 module SlocStar
   class Repository
     include HTTParty

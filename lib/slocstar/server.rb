@@ -22,6 +22,7 @@ require 'multi_json'
 require 'sprockets'
 require 'sinatra/base'
 
+require 'slocstar/version'
 require 'slocstar/helpers'
 require 'slocstar/stats'
 

@@ -23,7 +23,7 @@ require 'bundler/setup'
 require 'slocstar'
 
 
-if ENV['SLOCSTAR_FAKE']
+if SlocStar::Settings.fake?
   require 'digest/md5'
   require 'faker'
 
@@ -77,6 +77,3 @@ if ENV['SLOCSTAR_FAKE']
     end
   end
 end
-
-
-SlocStar.configure!

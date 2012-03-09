@@ -16,35 +16,21 @@
 # along with SlocStar.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require 'redis'
-require 'redis/namespace'
-require 'resque'
-
-
 module SlocStar
-  autoload :Git,            'slocstar/git'
-  autoload :Helpers,        'slocstar/helpers'
-  autoload :Repository,     'slocstar/repository'
-  autoload :Server,         'slocstar/server'
-  autoload :Settings,       'slocstar/settings'
-  autoload :Stats,          'slocstar/stats'
-  autoload :Version,        'slocstar/version'
+  module Settings
+    extend self
 
 
-  extend self
-
-
-  def root
-    @root ||= Pathname.new(File.expand_path('../../', __FILE__))
-  end
-
-
-  def redis
-    unless @redis
-      conn = Resque.redis = Redis.connect(Settings.redis)
-      @redis = Redis::Namespace.new(:slocstar, :redis => conn)
+    def redis
+      @redis ||= {
+        :url  => ENV['SLOCSTAR_REDIS_URL'] || ENV['REDIS_URL'],
+        :path => ENV['SLOCSTAR_REDIS_SOCKET'] || ENV['REDIS_SOCKET']
+      }
     end
 
-    @redis
+
+    def fake?
+      !!ENV['SLOCSTAR_FAKE']
+    end
   end
 end

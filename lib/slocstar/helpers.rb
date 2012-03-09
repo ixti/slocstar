@@ -16,19 +16,9 @@
 # along with SlocStar.  If not, see <http://www.gnu.org/licenses/>.
 
 
+require 'yajl'
 require 'multi_json'
 
-# Some of the ideas were shamelessly taken from Resque
-# https://github.com/defunkt/resque
-
-# yajl-ruby 100% works with utf-8, while I'm not sure about others and
-# :json-common had problems for sure...
-begin
-  require 'yajl'
-  MultiJson.engine = :yajl
-rescue
-  raise "Please install the yajl-ruby gem"
-end
 
 module SlocStar
   module Helpers

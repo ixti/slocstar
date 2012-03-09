@@ -20,6 +20,7 @@ require 'posix-spawn'
 
 # Some of the ideas were taken from Grit (https://github.com/mojombo/grit)
 
+
 module SlocStar
   class Git
     include POSIX::Spawn

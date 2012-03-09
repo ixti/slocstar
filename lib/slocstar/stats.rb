@@ -21,7 +21,9 @@ require 'resque_scheduler'
 require 'slocstar/helpers'
 require 'slocstar/repository'
 
+
 # TODO: Improve resurrection
+#
 
 module SlocStar
   module Stats
