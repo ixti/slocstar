@@ -126,14 +126,21 @@ module SlocStar
     end
 
 
+    # Pull new changes from the repo
+    # BEWARE! We don't check repo path.
+    def self.pull(repo)
+      exec({"GIT_ASKPASS" => "echo"}, "git pull --force", {:chdir => repo})
+    end
+
+
     # Returns stats of git repo under given `path`.
     # Stats is an array of capture groups of STATS_RE, e.g.
     #
     #   [["10", "Aleksey V Zapparov", "ixti@member.fsf.org"], ...]
-    def self.stats(path)
+    def self.stats(repo)
       stats = []
 
-      exec({}, STATS_CMD, {:chdir => path}).each_line do |line|
+      exec({}, STATS_CMD, {:chdir => repo}).each_line do |line|
         if m = STATS_RE.match(line)
           stats << m.captures
         end

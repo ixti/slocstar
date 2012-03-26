@@ -29,6 +29,11 @@ module SlocStar
     end
 
 
+    def repos
+      @repos ||= ENV['SLOCSTAR_REPOS'] || Dir.mktmpdir('slocstar-')
+    end
+
+
     def fake?
       !!ENV['SLOCSTAR_FAKE']
     end

@@ -21,6 +21,7 @@ require 'tmpdir'
 require 'httparty'
 
 require 'slocstar/git'
+require 'slocstar/settings'
 
 
 module SlocStar
@@ -35,11 +36,18 @@ module SlocStar
     end
 
     def stats
-      tmp = Dir.mktmpdir('slocstar-')
-      stats = {}
+      repo_path = "#{Settings.repos}/#{slug}"
+      stats     = {}
 
-      Git.clone(source_url, tmp)
-      Git.stats(tmp).each do |data|
+      if File.directory?("#{repo_path}/.git")
+        # update existing repo
+        Git.pull(repo_path)
+      else
+        # clone new repo
+        Git.clone(source_url, repo_path)
+      end
+
+      Git.stats(repo_path).each do |data|
         loc, name, mail = data
 
         if stats[mail].nil?
@@ -56,10 +64,6 @@ module SlocStar
         end
         data
       end
-    ensure
-      # by some reasons, when Git.* raises error, tmpdir removed before we
-      # get here, at least on my laptop
-      FileUtils.remove_entry_secure(tmp) if File.directory? tmp
     end
 
     def slug
