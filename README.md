@@ -1,13 +1,9 @@
 SlocStar
 ========
 
-SlocStar (formerly named as _Octoblame_) is a dummy stats generator that shows
-how much lines of code (SLOC) belongs to who in the latest snapshot of git repo.
-It was written in order to play around with [resque][1] and [posix-spawn][2]
-mostly and generally consist of two things:
-
-- frontend user interface that grabs requests and renders retrieved data
-- backend worker that downloads latest repo snapshot and calculate stats
+SlocStar is a dummy stats generator that shows how much lines of code (SLOC)
+belongs whom in the latest snapshot of git repo. It was written just to play
+with [resque][1] and [posix-spawn][2] before starting [APICD][3].
 
 To calculate amount of lines of code per-author I use piped bunch of commands
 that are running in a spawned process by resque. You can get such stats by
@@ -15,8 +11,8 @@ yourself running following in the dir with your repo (no ruby needed at all):
 
 ``` bash
 git ls-tree -r --name-only HEAD | while read file ; do
-  git blame --line-porcelain HEAD "$file"
-done | sed -n 's/^author //p' | sort | uniq -c | sort -rn
+  git blame --line-porcelain HEAD "$file" | sed -n 's/^author //p'
+done | sort | uniq -c | sort -rn
 ```
 
 
@@ -40,3 +36,4 @@ See COPYING.
 
 [1]: https://github.com/defunkt/resque/
 [2]: https://github.com/rtomayko/posix-spawn/
+[3]: https://github.com/apicd
