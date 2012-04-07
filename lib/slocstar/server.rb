@@ -75,8 +75,8 @@ module SlocStar
       return encode({:err => "No stats for this repo yet."}) unless stats
 
       cache_control :public
-      last_modified stats[:time]
-      etag stats[:sha1]
+      last_modified stats["time"]
+      etag stats.delete("sha1")
 
       encode(stats)
     end
