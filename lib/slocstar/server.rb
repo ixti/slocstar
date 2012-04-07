@@ -74,6 +74,7 @@ module SlocStar
 
 
     post "/github" do
+      halt 401 unless Settings.github_public_ips.include?(request.ip)
       if push = decode(params[:payload]) and repo = push['repository']
         Stats.force_update(repo['owner']['name'], repo['name'])
       end

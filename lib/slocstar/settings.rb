@@ -39,6 +39,12 @@ module SlocStar
     end
 
 
+
+    def github_public_ips
+      @gihub_pub_ips ||= %w{ 207.97.227.253 50.57.128.197 }
+    end
+
+
     def fake?
       !!ENV['SLOCSTAR_FAKE']
     end
