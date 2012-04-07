@@ -26,10 +26,6 @@ module SlocStar
     include POSIX::Spawn
 
 
-    # Max execution time for each command in seconds.
-    TIMEOUT = 60
-
-
     # Sed script that leaves only author name and e-mail from procelain blame:
     #
     #   e124e0d02e8f9bc2f4834f614f62739b149bb0a6 1 1 8
