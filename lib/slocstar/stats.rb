@@ -16,74 +16,104 @@
 # along with SlocStar.  If not, see <http://www.gnu.org/licenses/>.
 
 
+require 'resque'
 require 'resque_scheduler'
 
 require 'slocstar/helpers'
 require 'slocstar/repository'
 
 
-# TODO: Improve resurrection
-#
-
 module SlocStar
   module Stats
     extend Helpers
     extend self
 
+
+    # Amount of attempts to get stats
+    # before removing slug from the queue
+    MAX_ATTEMPTS = 5
+
+    # Amount of "latest" entries
+    MAX_HISTORY = 16
+
+    # Stats refresh on success delay in seconds
+    UPDATE_DELAY = 12*60*60
+
+    # Stats refresh on failure delay in seconds
+    RETRY_DELAY = 60*60
+
+
     @queue = :stats_update
 
-    # Update frequency in seconds
-    UPDATE_FREQ = 24*60*60
 
+    # Used redis keys:
+    #
+    # stats   : HASH of {<slug> => <stats>}
+    # fails   : HASH of {<slug> => <amount of failed attempts>}
+    # queued  : SET of queued <slug>s
+    # latest  : LIST of latest updated <slug>s
+
+
+    # Returns last stats of the <user/proj> repo
     def get(user, proj)
       slug = Repository.slug(user, proj)
-      data = decode(redis.get("stats:#{slug}"))
 
-      unless redis.exists("queued:#{slug}")
-        redis.set("queued:#{slug}", Time.new.to_i)
-        Resque.enqueue(Stats, user, proj)
+      # Stats task is "resurrectable", so avoid
+      # adding more than one in the queue
+      unless redis.sismember(:queued, slug)
+        redis.sadd(:queued, slug)
+        Resque.enqueue(Stats, *slug.split("/"))
       end
 
-      data
+      decode(redis.hget(:stats, slug))
     end
 
+
+    # Resque heavylifter
     def perform(user, proj)
       repo  = Repository.new(user, proj)
       stats = repo.stats
 
-      redis.set("stats:#{repo.slug}", encode({
+      redis.hset(:stats, repo.slug, encode({
         :stats => stats,
         :time => Time.new.to_i,
         :sha1 => Digest::SHA1.hexdigest(stats.flatten.unshift(Time.new).join)
       }))
 
       redis.multi do
-        # keep list of known repos
-        redis.sadd('known', repo.slug)
-        redis.lrem('latest', 0, repo.slug)
-        redis.lpush('latest', repo.slug)
-        # amount of "latest" updated repos
-        # FIXME: should be configurable
-        redis.ltrim('latest', 0, 16)
+        redis.hdel(:fails, repo.slug)
+        redis.lrem(:latest, 0, repo.slug)
+        redis.lpush(:latest, repo.slug)
+        redis.ltrim(:latest, 0, MAX_HISTORY)
       end
 
-      # Re-enqueue stats update
-      Resque.enqueue_in(UPDATE_FREQ, Stats, user, proj)
+      Resque.enqueue_in(UPDATE_DELAY, Stats, user, proj)
     rescue Git::GitCommandFailed
-      redis.del("queued:#{repo.slug}")
-      redis.srem('known', repo.slug)
+      if MAX_ATTEMPTS > redis.hincrby(:fails, repo.slug, 1)
+        Resque.enqueue_in(RETRY_DELAY, Stats, user, proj)
+      else
+        redis.multi do
+          redis.hdel(:fails, repo.slug)
+          redis.hdel(:stats, repo.slug)
+          redis.srem(:queued, repo.slug)
+          redis.lrem(:latest, repo.slug)
+        end
+      end
+
       raise
     end
 
+
     def latest
-      slugs = redis.lrange('latest', 0, -1)
-      slugs.empty? ? [] : redis.mget(*(slugs.map{ |s| "stats:#{s}" })).map do |stats|
+      slugs = redis.lrange(:latest, 0, -1)
+      slugs.empty? ? [] : redis.hmget(:stats, *slugs).map do |stats|
         {:slug => slugs.shift, :time => decode(stats)['time']}
       end
     end
 
+
     def known
-      redis.smembers('known')
+      redis.hkeys(:stats)
     end
   end
 end
