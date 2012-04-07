@@ -84,9 +84,10 @@ module SlocStar
 
     get "/stats/:user/:proj" do
       content_type :json
-      stats = Stats.get(params[:user], params[:proj])
 
-      return encode({:err => "No stats for this repo yet."}) unless stats
+      unless stats = Stats.get(params[:user], params[:proj])
+        return encode({:err => "No stats for this repo yet."})
+      end
 
       cache_control :public
       last_modified stats["time"]
