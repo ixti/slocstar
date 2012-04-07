@@ -74,8 +74,8 @@ module SlocStar
 
 
     post "/github" do
-      if push = decode(params[:payload])
-        Stats.force_update(push['owner']['name'], push['name'])
+      if push = decode(params[:payload]) and repo = push['repository']
+        Stats.force_update(repo['owner']['name'], repo['name'])
       end
       204
     end
