@@ -69,6 +69,16 @@ module SlocStar
     end
 
 
+    # Forced update of the stats
+    def force_update(user, proj)
+      Resque.remove_delayed(Stats, user, proj)
+      Resque.dequeue(Stats, user, proj)
+
+      redis.sadd(:queued, Repository.slug(user, proj))
+      Resque.enqueue(Stats, user, proj)
+    end
+
+
     # Resque heavylifter
     def perform(user, proj)
       repo  = Repository.new(user, proj)

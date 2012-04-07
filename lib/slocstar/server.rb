@@ -74,8 +74,9 @@ module SlocStar
 
 
     post "/github" do
-      push = decode(params[:payload])
-      puts "Got service ping: #{push.inspect}"
+      if push = decode(params[:payload])
+        Stats.force_update(push['owner']['name'], push['name'])
+      end
       204
     end
 
