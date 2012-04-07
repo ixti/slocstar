@@ -30,8 +30,10 @@ module SlocStar
   class Server < Sinatra::Base
     include Helpers
 
+
     set :root, File.expand_path(File.dirname(__FILE__) + '/server/')
     set :assets_prefix, "/assets"
+
 
     def self.assets
       unless @assets
@@ -45,6 +47,7 @@ module SlocStar
 
       @assets
     end
+
 
     configure :production do
       begin
@@ -62,11 +65,20 @@ module SlocStar
       end
     end
 
+
     helpers do
       def asset_path(source, options = {})
         "#{Server.assets_prefix}/#{Server.assets[source].digest_path}"
       end
     end
+
+
+    post "/github" do
+      push = decode(params[:payload])
+      puts "Got service ping: #{push.inspect}"
+      204
+    end
+
 
     get "/stats/:user/:proj" do
       content_type :json
@@ -81,24 +93,29 @@ module SlocStar
       encode(stats)
     end
 
+
     get "/known" do
       content_type :json
       encode(Stats.known)
     end
+
 
     get "/version" do
       content_type :json
       encode SlocStar::VERSION
     end
 
+
     get "/" do
       slim :application, :locals => {:latest => Stats.latest}
     end
+
 
     not_found do
       status 404
       slim :"404"
     end
+
 
     error do
       status 500
