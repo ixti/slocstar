@@ -30,7 +30,12 @@ module SlocStar
 
 
     def repos
-      @repos ||= ENV['SLOCSTAR_REPOS'] || Dir.mktmpdir('slocstar-')
+      unless @repos
+        @repos = ENV['SLOCSTAR_REPOS'] || File.join(Dir.tmpdir, 'slocstar-repos')
+        Dir.mkdir(@repos) unless Dir.exists?(@repos)
+      end
+
+      @repos
     end
 
 
