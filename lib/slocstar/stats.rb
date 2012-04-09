@@ -37,7 +37,7 @@ module SlocStar
     MAX_HISTORY = 16
 
     # Stats refresh on success delay in seconds
-    UPDATE_DELAY = 12*60*60
+    UPDATE_DELAY = 42*60*60
 
     # Stats refresh on failure delay in seconds
     RETRY_DELAY = 60*60
