@@ -86,8 +86,9 @@ module SlocStar
 
       redis.hset(:stats, repo.slug, encode({
         :stats => stats,
+        :total => stats.inject(0){ |memo,arr| memo + arr.first },
         :time => Time.new.to_i,
-        :sha1 => Digest::SHA1.hexdigest(stats.flatten.unshift(Time.new).join)
+        :sha1 => Digest::SHA1.hexdigest(stats.flatten.join)
       }))
 
       redis.multi do
