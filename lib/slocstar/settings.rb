@@ -39,6 +39,10 @@ module SlocStar
     end
 
 
+    def auto_update?
+      @auto_update ||= /^(?:|1|y|yes)$/i =~ ENV['SLOCSTAR_AUTOUPDATE'].to_s
+    end
+
 
     def github_public_ips
       @gihub_pub_ips ||= %w{ 207.97.227.253 50.57.128.197 }

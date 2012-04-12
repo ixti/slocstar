@@ -98,7 +98,7 @@ module SlocStar
         redis.ltrim(:latest, 0, MAX_HISTORY)
       end
 
-      Resque.enqueue_in(UPDATE_DELAY, Stats, user, proj)
+      Resque.enqueue_in(UPDATE_DELAY, Stats, user, proj) if SlocStar::Settings.auto_update?
     rescue Git::GitCommandFailed
       if MAX_ATTEMPTS > redis.hincrby(:fails, repo.slug, 1)
         Resque.enqueue_in(RETRY_DELAY, Stats, user, proj)
