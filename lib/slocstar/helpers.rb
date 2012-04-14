@@ -17,7 +17,6 @@
 
 
 require 'yajl'
-require 'multi_json'
 
 
 module SlocStar
@@ -28,19 +27,18 @@ module SlocStar
       SlocStar.redis
     end
 
-    # Given a Ruby object, returns a string suitable for storage in a
-    # queue.
+    # Given a Ruby object, returns a string suitable for storage in a queue.
     def encode(object)
-      ::MultiJson.encode(object)
+      ::Yajl::Encoder.encode(object)
     end
 
     # Given a string, returns a Ruby object.
-    def decode(object)
-      return unless object
+    def decode(string)
+      return unless string
 
       begin
-        ::MultiJson.decode(object)
-      rescue ::MultiJson::DecodeError => e
+        ::Yajl::Parser.parse(string, :symbolize_keys => true)
+      rescue ::Yajl::ParseError => e
         raise DecodeException, e.message, e.backtrace
       end
     end

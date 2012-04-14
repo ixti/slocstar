@@ -34,11 +34,6 @@ module SlocStar
   extend self
 
 
-  def root
-    @root ||= Pathname.new(File.expand_path('../../', __FILE__))
-  end
-
-
   def redis
     unless @redis
       conn = Resque.redis = Redis.connect(Settings.redis)

@@ -6,13 +6,10 @@ GEM
       open4
     Platform (0.4.0)
     closure-compiler (1.1.5)
-    faker (1.0.1)
-      i18n (~> 0.4)
     hike (1.2.1)
     httparty (0.8.1)
       multi_json
       multi_xml
-    i18n (0.6.0)
     json (1.4.6)
     multi_json (1.0.4)
     multi_xml (0.4.1)
@@ -63,9 +60,7 @@ PLATFORMS
 
 DEPENDENCIES
   closure-compiler
-  faker
   httparty
-  multi_json
   posix-spawn
   rake
   redis

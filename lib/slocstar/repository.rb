@@ -29,6 +29,7 @@ module SlocStar
     include HTTParty
     base_uri "https://api.github.com"
 
+
     attr_reader :user, :proj
 
     def initialize(user, proj)

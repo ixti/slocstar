@@ -18,12 +18,21 @@
 
 require 'posix-spawn'
 
+
 # Some of the ideas were taken from Grit (https://github.com/mojombo/grit)
 
 
 module SlocStar
   class Git
     include POSIX::Spawn
+
+
+    # Timeouts of commands execution in seconds.
+    TIMEOUTS = {
+      :clone => 30*60,
+      :pull  => 15*60,
+      :stats => 8*60*60
+    }
 
 
     # Sed script that leaves only author name and e-mail from procelain blame:
@@ -98,6 +107,47 @@ module SlocStar
     end
 
 
+    # Clone `source` repository into `path`
+    # BEWARE! We don't check neither source nor path.
+    def self.clone(source, path)
+      cmnd = "git clone --quiet '#{source}' '#{path}'"
+      opts = {:timeout => TIMEOUTS[__method__]}
+
+      exec({"GIT_ASKPASS" => "echo"}, cmnd, opts)
+    end
+
+
+    # Pull new changes from the repo
+    # BEWARE! We don't check repo path.
+    def self.pull(repo)
+      cmnd = "git pull --force"
+      opts = {:timeout => TIMEOUTS[__method__], :chdir => repo}
+
+      exec({"GIT_ASKPASS" => "echo"}, cmnd, opts)
+    end
+
+
+    # Returns stats of git repo under given `path`.
+    # Stats is an array of capture groups of STATS_RE, e.g.
+    #
+    #   [["10", "Aleksey V Zapparov", "ixti@member.fsf.org"], ...]
+    def self.stats(repo)
+      opts  = {:timeout => TIMEOUTS[__method__], :chdir => repo}
+      stats = []
+
+      exec({}, STATS_CMD, opts).each_line do |line|
+        if m = STATS_RE.match(line)
+          stats << m.captures
+        end
+      end
+
+      stats
+    end
+
+
+    protected
+
+
     # Executes `command` and returns output.
     #
     # - Raises CommandFailed if exit status of command was failure.
@@ -112,37 +162,6 @@ module SlocStar
       process.out
     rescue TimeoutExceeded, MaximumOutputExceeded
       raise GitTimeout, command
-    end
-
-
-    # Clone `source` repository into `path`
-    # BEWARE! We don't check neither source nor path.
-    def self.clone(source, path)
-      exec({"GIT_ASKPASS" => "echo"}, "git clone --quiet '#{source}' '#{path}'")
-    end
-
-
-    # Pull new changes from the repo
-    # BEWARE! We don't check repo path.
-    def self.pull(repo)
-      exec({"GIT_ASKPASS" => "echo"}, "git pull --force", {:chdir => repo})
-    end
-
-
-    # Returns stats of git repo under given `path`.
-    # Stats is an array of capture groups of STATS_RE, e.g.
-    #
-    #   [["10", "Aleksey V Zapparov", "ixti@member.fsf.org"], ...]
-    def self.stats(repo)
-      stats = []
-
-      exec({}, STATS_CMD, {:chdir => repo}).each_line do |line|
-        if m = STATS_RE.match(line)
-          stats << m.captures
-        end
-      end
-
-      stats
     end
   end
 end

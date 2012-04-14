@@ -37,7 +37,7 @@ module SlocStar
     MAX_HISTORY = 16
 
     # Stats refresh on success delay in seconds
-    UPDATE_DELAY = 42*60*60
+    UPDATE_DELAY = 7*24*60*60
 
     # Stats refresh on failure delay in seconds
     RETRY_DELAY = 60*60
@@ -69,8 +69,8 @@ module SlocStar
     end
 
 
-    # Forced update of the stats
-    def force_update(user, proj)
+    # Forced (by payload) update of the stats
+    def update(user, proj)
       Resque.remove_delayed(Stats, user, proj)
       Resque.dequeue(Stats, user, proj)
 
@@ -87,8 +87,8 @@ module SlocStar
       redis.hset(:stats, repo.slug, encode({
         :stats => stats,
         :total => stats.inject(0){ |memo,arr| memo + arr.first },
-        :time => Time.new.to_i,
-        :sha1 => Digest::SHA1.hexdigest(stats.flatten.join)
+        :time  => Time.new.to_i,
+        :sha1  => Digest::SHA1.hexdigest(stats.flatten.join)
       }))
 
       redis.multi do
@@ -98,7 +98,7 @@ module SlocStar
         redis.ltrim(:latest, 0, MAX_HISTORY)
       end
 
-      Resque.enqueue_in(UPDATE_DELAY, Stats, user, proj) if SlocStar::Settings.auto_update?
+      Resque.enqueue_in(UPDATE_DELAY, Stats, user, proj)
     rescue Git::GitCommandFailed
       if MAX_ATTEMPTS > redis.hincrby(:fails, repo.slug, 1)
         Resque.enqueue_in(RETRY_DELAY, Stats, user, proj)

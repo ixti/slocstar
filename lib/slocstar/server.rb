@@ -76,8 +76,8 @@ module SlocStar
     post "/github" do
       halt 401 unless Settings.github_public_ips.include?(request.ip)
 
-      repo = decode(params[:payload])['repository']
-      Stats.force_update(repo['owner']['name'], repo['name'])
+      repo = decode(params[:payload])[:repository]
+      Stats.update(repo[:owner][:name], repo[:name])
 
       204
     end
@@ -91,8 +91,8 @@ module SlocStar
       end
 
       cache_control :public
-      last_modified stats["time"]
-      etag stats.delete("sha1")
+      last_modified stats[:time]
+      etag stats.delete(:sha1)
 
       encode(stats)
     end
@@ -117,13 +117,13 @@ module SlocStar
 
     not_found do
       status 404
-      slim :"404"
+      slim :err_404
     end
 
 
     error do
       status 500
-      slim :"500"
+      slim :err_500
     end
   end
 end
