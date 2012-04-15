@@ -118,7 +118,7 @@ module SlocStar
     def latest
       slugs = redis.lrange(:latest, 0, -1)
       slugs.empty? ? [] : redis.hmget(:stats, *slugs).map do |stats|
-        {:slug => slugs.shift, :time => decode(stats)['time']}
+        {:slug => slugs.shift, :time => decode(stats)[:time]}
       end
     end
 
