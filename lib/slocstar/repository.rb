@@ -36,6 +36,20 @@ module SlocStar
       @user, @proj = user, proj
     end
 
+    # Returns array of arrays of sloc stats:
+    #
+    #   [0] slocs (integer)
+    #   [1] name (string)
+    #   [2] gravatar_id (string)
+    #   [3] github_user (string, optional)
+    #
+    # Example:
+    #
+    #   [
+    #     [ 123, "Alex Zapparov", "1ad2ce5d0b7e6e467ca7b7ba8c7840f6", "ixti" ],
+    #     [ 12, "Anykey Foobar", "3858f62230ac3c915f300c664312c63f" ]
+    #     ...
+    #   ]
     def stats
       repo_path = "#{Settings.repos}/#{slug}"
       stats     = {}
