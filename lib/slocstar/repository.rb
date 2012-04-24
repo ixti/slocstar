@@ -94,8 +94,7 @@ module SlocStar
     end
 
     def collaborators
-      @collaborators = self.class.get("/repos/#{slug}/collaborators") unless @collaborators
-      @collaborators
+      @collaborators ||= self.class.get("/repos/#{slug}/collaborators")
     end
   end
 end
