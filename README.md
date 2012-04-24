@@ -25,7 +25,6 @@ Deployment
     (see [resque][1] documentation for more details)
 -   Start resque scheduler: `$ bundle exec rake resque:scheduler`
 -   Start web interface: `$ bundle exec rackup -p 8080`
--   (Optional) Start resque monitor: `$ bundle exec rackup -p 8090 resque.ru`
 
 
 Licence & Copyrights
