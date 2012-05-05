@@ -14,7 +14,7 @@
   #stats.span6
     ul
       | {{# stats}}
-      li(data-loc="{{loc}}")
+      li(data-loc="{{loc}}" data-rate="{{rate}}")
         img.gravatar(src="http://www.gravatar.com/avatar/{{hash}}?s=40&d=retro")
         div.commiter
           h3.author() {{name}}
