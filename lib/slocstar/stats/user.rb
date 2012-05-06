@@ -16,5 +16,16 @@
 # along with SlocStar.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require 'slocstar/stats/repo'
-require 'slocstar/stats/user'
+require 'resque'
+require 'resque_scheduler'
+
+require 'slocstar/helpers'
+require 'slocstar/repository'
+
+
+module SlocStar
+  module Stats
+    module User
+    end
+  end
+end

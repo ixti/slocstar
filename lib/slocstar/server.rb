@@ -77,7 +77,7 @@ module SlocStar
       halt 401 unless Settings.github_public_ips.include?(request.ip)
 
       repo = decode(params[:payload])[:repository]
-      Stats.update(repo[:owner][:name], repo[:name])
+      Stats::Repo.update(repo[:owner][:name], repo[:name])
 
       204
     end
@@ -86,7 +86,7 @@ module SlocStar
     get "/stats/:user/:proj" do
       content_type :json
 
-      unless stats = Stats.get(params[:user], params[:proj])
+      unless stats = Stats::Repo.get(params[:user], params[:proj])
         return encode({:err => "No stats for this repo yet."})
       end
 
@@ -100,7 +100,7 @@ module SlocStar
 
     get "/known" do
       content_type :json
-      encode(Stats.known)
+      encode(Stats::Repo.known)
     end
 
 
@@ -111,7 +111,7 @@ module SlocStar
 
 
     get "/" do
-      slim :application, :locals => {:latest => Stats.latest}
+      slim :application, :locals => {:latest => Stats::Repo.latest}
     end
 
 
