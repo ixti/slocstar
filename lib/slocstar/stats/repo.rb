@@ -63,7 +63,7 @@ module SlocStar
         # adding more than one in the queue
         unless redis.sismember(:queued, slug)
           redis.sadd(:queued, slug)
-          Resque.enqueue(Stats, *slug.split("/"))
+          Resque.enqueue(::SlocStar::Stats::Repo, *slug.split("/"))
         end
 
         decode(redis.hget(:stats, slug))
@@ -72,11 +72,11 @@ module SlocStar
 
       # Forced (by payload) update of the stats
       def update(user, proj)
-        Resque.remove_delayed(Stats, user, proj)
-        Resque.dequeue(Stats, user, proj)
+        Resque.remove_delayed(::SlocStar::Stats::Repo, user, proj)
+        Resque.dequeue(::SlocStar::Stats::Repo, user, proj)
 
         redis.sadd(:queued, Repository.slug(user, proj))
-        Resque.enqueue(Stats, user, proj)
+        Resque.enqueue(::SlocStar::Stats::Repo, user, proj)
       end
 
 
@@ -99,10 +99,10 @@ module SlocStar
           redis.ltrim(:latest, 0, MAX_HISTORY)
         end
 
-        Resque.enqueue_in(UPDATE_DELAY, Stats, user, proj)
+        Resque.enqueue_in(UPDATE_DELAY, ::SlocStar::Stats::Repo, user, proj)
       rescue Git::GitCommandFailed
         if MAX_ATTEMPTS > redis.hincrby(:fails, repo.slug, 1)
-          Resque.enqueue_in(RETRY_DELAY, Stats, user, proj)
+          Resque.enqueue_in(RETRY_DELAY, ::SlocStar::Stats::Repo, user, proj)
         else
           redis.multi do
             redis.hdel(:fails, repo.slug)
