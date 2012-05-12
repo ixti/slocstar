@@ -4,7 +4,7 @@ map "/assets" do
   run SlocStar::Server.assets
 end
 
-if 'development' == ENV['SLOCSTAR_ENV']
+if 'development' == SlocStar.env
   map "/resque" do
     require 'resque/server'
     require 'resque_scheduler'

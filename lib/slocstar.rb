@@ -42,4 +42,9 @@ module SlocStar
 
     @redis
   end
+
+
+  def env
+    @env ||= ENV['SLOCSTAR_ENV'] || 'development'
+  end
 end
