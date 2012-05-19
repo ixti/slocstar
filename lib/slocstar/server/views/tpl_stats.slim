@@ -8,10 +8,7 @@
         time(datetime="{{time}}") {{time}}
 
 .row
-  #chart.span6
-    div Loading pie chart...
-
-  #stats.span6
+  #stats.span6.offset3
     ul
       | {{# stats}}
       li(data-loc="{{loc}}" data-rate="{{rate}}")
